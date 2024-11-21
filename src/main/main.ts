@@ -3,13 +3,14 @@ import { StorageService } from '../services/storageService';
 // Initialize storage service
 const storageService = new StorageService();
 
-// During app startup/login
-await storageService.initialize('user-password');
+async function initializeApp() {
+  await storageService.initialize('user-password');
+  
+  await storageService.saveTransactions([
+    { id: 1, amount: 100, description: 'Grocery shopping' }
+  ]);
+  
+  const transactions = await storageService.getTransactions();
+}
 
-// Save data
-await storageService.saveTransactions([
-  { id: 1, amount: 100, description: 'Grocery shopping' }
-]);
-
-// Retrieve data
-const transactions = await storageService.getTransactions(); 
+initializeApp(); 
